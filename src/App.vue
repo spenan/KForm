@@ -1,28 +1,158 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <KForm
+      :model="formData"
+      ref="kform"
+      :rules="rules"
+      label-position="top"
+      label-width="80px"
+      :show-message="false"
+    >
+      <KFormItem label="用户" prop="UserName">
+        <KInput
+          type="text"
+          v-model="formData.UserName"
+          placeholder="请输入用户信息"
+        />
+      </KFormItem>
+      <KFormItem label="密码" prop="PassWord">
+        <KInput
+          type="password"
+          v-model="formData.PassWord"
+          placeholder="请输入密码"
+        />
+      </KFormItem>
+      <KFormItem label="备注">
+        <KInput
+          type="text"
+          v-model="formData.Remake"
+          placeholder="请输入备注"
+        />
+      </KFormItem>
+      <KFormItem label="活动区域" prop="Region">
+        <KSelect
+          v-model="formData.Region"
+          style="width: 100%"
+          placeholder="请选择活动区域"
+        >
+          <KOption label="上海" value="shanghai" />
+          <KOption label="广州" value="guangzhou" />
+        </KSelect>
+      </KFormItem>
+      <KFormItem label="活动时间" prop="ActionTime">
+        <KDatePicker
+          v-model="formData.ActionTime"
+          style="width: 100%"
+          placeholder="请选择活动时间"
+          unlink-panels
+          :picker-options="pickerOptions"
+          value-format="yyyy-MM-dd"
+        />
+      </KFormItem>
+      <el-button type="primary" @click="submitForm('kform')">提交</el-button>
+      <el-button @click="resetForm('kform')">重置</el-button>
+    </KForm>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import KForm from "./components/KForm.vue";
+import KFormItem from "./components/KFormItem.vue";
+import KInput from "./components/KInput.vue";
+import KSelect from "./components/KSelect.vue";
+import KOption from "./components/KOption";
+import KDatePicker from "./components/KDatePicker";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    KForm,
+    KFormItem,
+    KInput,
+    KSelect,
+    KOption,
+    KDatePicker,
+  },
+  data() {
+    return {
+      formData: {
+        UserName: "",
+        PassWord: "",
+        ActionTime: "",
+        Region: "",
+      },
+      rules: {
+        UserName: [
+          { required: true, message: "请输入用户信息", trigger: "blur" },
+        ],
+        PassWord: [{ required: true, message: "请输入密码", trigger: "blur" }],
+        Region: [
+          { required: true, message: "请选择活动区域", trigger: "change" },
+        ],
+      },
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [
+          {
+            text: "今天",
+            onClick(picker) {
+              picker.$emit("pick", new Date());
+            },
+          },
+          {
+            text: "昨天",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit("pick", date);
+            },
+          },
+          {
+            text: "一周前",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", date);
+            },
+          },
+        ],
+      },
+    };
+  },
+  methods: {
+    async submitForm() {
+      this.$refs.kform.validate((valid, errInfo) => {
+        if (valid) {
+          this.$notify({
+            title: "成功",
+            message: JSON.stringify(this.formData),
+            type: "success",
+          });
+        } else {
+          try {
+            Object.keys(errInfo).forEach((item) => {
+              this.$message.error(errInfo[item][0].message);
+              throw Error(errInfo[item][0].message);
+            });
+            // eslint-disable-next-line no-empty
+          } catch (_) {}
+        }
+      });
+    },
+    //重置
+    resetForm() {
+      Object.keys(this.formData).map((keys) => {
+        this.formData[keys] = "";
+      });
+    },
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.el-notification {
+  word-wrap: break-word;
+  word-break: break-all;
 }
 </style>
