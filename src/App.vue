@@ -40,14 +40,22 @@
           <KOption label="广州" value="guangzhou" />
         </KSelect>
       </KFormItem>
-      <KFormItem label="活动时间">
+      <KFormItem label="活动日期">
         <KDatePicker
-          v-model="formData.ActionTime"
+          v-model="formData.ActionDay"
           style="width: 100%"
-          placeholder="请选择活动时间"
+          placeholder="请选择活动日期"
           unlink-panels
           :picker-options="pickerOptions"
           value-format="yyyy-MM-dd"
+        />
+      </KFormItem>
+
+       <KFormItem label="活动时间">
+        <KTimePicker
+          v-model="formData.ActionTime"
+          style="width: 100%"
+          placeholder="请选择活动时间"
         />
       </KFormItem>
 
@@ -61,6 +69,10 @@
 
       <KFormItem label="活动价格">
         <KSlider v-model="formData.Price" />
+      </KFormItem>
+
+      <KFormItem label="是否配送">
+        <KSwitch v-model="formData.IsSend" />
       </KFormItem>
 
       <el-button type="primary" @click="submitForm('kform')">提交</el-button>
@@ -78,8 +90,10 @@ import KInputNumber from "./components/KInputNumber.vue";
 import KSelect from "./components/KSelect.vue";
 import KOption from "./components/KOption";
 import KDatePicker from "./components/KDatePicker";
+import KTimePicker from './components/KTimePicker'
 import KRate from "./components/KRate";
 import KSlider from "./components/KSlider";
+import KSwitch from './components/KSwitch'
 export default {
   name: "App",
   components: {
@@ -90,15 +104,18 @@ export default {
     KSelect,
     KOption,
     KInputNumber,
+    KTimePicker,
     KRate,
     KSlider,
     KDatePicker,
+    KSwitch
   },
   data() {
     return {
       formData: {
         UserName: "",
         PassWord: "",
+        ActionDay:'',
         ActionTime: "",
         Region: "",
         Counter: 0,
@@ -180,7 +197,7 @@ body,html{
 padding: 0px;
   margin: 0px;
 }
-#app {;
+#app {
     padding: 10px;
   }
 </style>

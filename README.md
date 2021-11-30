@@ -33,9 +33,15 @@ KFormItem form表单项
 ### 自定义组件
 ```
 KDatePicker  日期选择器
+KTimePicker 时间选择器
 KInput 输入框
 KOption 下拉选项
 KSelect 下拉框
+KInputNumber 数字输入框
+KRate 评分
+KSwitch 开关
+KSlider 滑块
+
 ```
 
 
