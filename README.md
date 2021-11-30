@@ -24,7 +24,7 @@ yarn lint
 Element UI  表单组件封装
 ```
 
-### 自定义报表
+### 自定义表单
 ```
 KForm form表单
 KFormItem form表单项
@@ -32,15 +32,20 @@ KFormItem form表单项
 
 ### 自定义组件
 ```
+KCascader 级联选择器
+KCheckbox 复选框
+KCheckboxGroup 复选框组
 KDatePicker  日期选择器
-KTimePicker 时间选择器
 KInput 输入框
-KOption 下拉选项
-KSelect 下拉框
 KInputNumber 数字输入框
+KOption 下拉选项
+KRadio 单选按钮
+KRadioGroup 单选按钮组
 KRate 评分
-KSwitch 开关
+KSelect 下拉框
 KSlider 滑块
+KSwitch 开关
+KTimePicker 时间选择器
 
 ```
 
