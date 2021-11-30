@@ -27,9 +27,7 @@ export default {
   inject: ["form"],
   methods: {
     handleDatePicker(e) {
-      const { _props } = this.$parent;
-      const { model } = this.form;
-      model[_props.prop] = e;
+      this.$emit('input',e)
     },
   },
 };

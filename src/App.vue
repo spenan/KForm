@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Carousel/>
     <KForm
       :model="formData"
       ref="kform"
@@ -39,7 +40,7 @@
           <KOption label="广州" value="guangzhou" />
         </KSelect>
       </KFormItem>
-      <KFormItem label="活动时间" prop="ActionTime">
+      <KFormItem label="活动时间">
         <KDatePicker
           v-model="formData.ActionTime"
           style="width: 100%"
@@ -49,6 +50,19 @@
           value-format="yyyy-MM-dd"
         />
       </KFormItem>
+
+      <KFormItem label="活动人数">
+        <KInputNumber style="width: 100%" v-model="formData.Counter" />
+      </KFormItem>
+
+      <KFormItem label="活动满意度">
+        <KRate v-model="formData.Rate" />
+      </KFormItem>
+
+      <KFormItem label="活动价格">
+        <KSlider v-model="formData.Price" />
+      </KFormItem>
+
       <el-button type="primary" @click="submitForm('kform')">提交</el-button>
       <el-button @click="resetForm('kform')">重置</el-button>
     </KForm>
@@ -56,20 +70,28 @@
 </template>
 
 <script>
+import Carousel from './Carousel.vue'
 import KForm from "./components/KForm.vue";
 import KFormItem from "./components/KFormItem.vue";
 import KInput from "./components/KInput.vue";
+import KInputNumber from "./components/KInputNumber.vue";
 import KSelect from "./components/KSelect.vue";
 import KOption from "./components/KOption";
 import KDatePicker from "./components/KDatePicker";
+import KRate from "./components/KRate";
+import KSlider from "./components/KSlider";
 export default {
   name: "App",
   components: {
+    Carousel,
     KForm,
     KFormItem,
     KInput,
     KSelect,
     KOption,
+    KInputNumber,
+    KRate,
+    KSlider,
     KDatePicker,
   },
   data() {
@@ -79,6 +101,7 @@ export default {
         PassWord: "",
         ActionTime: "",
         Region: "",
+        Counter: 0,
       },
       rules: {
         UserName: [
@@ -142,9 +165,7 @@ export default {
     },
     //重置
     resetForm() {
-      Object.keys(this.formData).map((keys) => {
-        this.formData[keys] = "";
-      });
+      this.$refs.kform.resetFields();
     },
   },
 };
@@ -155,4 +176,11 @@ export default {
   word-wrap: break-word;
   word-break: break-all;
 }
+body,html{
+padding: 0px;
+  margin: 0px;
+}
+#app {;
+    padding: 10px;
+  }
 </style>

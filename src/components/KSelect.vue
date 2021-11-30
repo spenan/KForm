@@ -1,5 +1,5 @@
 <template>
-  <el-select :value="value" @change="handleChange" v-bind="$attrs">
+  <el-select :value="value" @input="handleSelectInput" v-bind="$attrs">
     <slot></slot>
     <!-- <el-option label="区域一" value="shanghai"></el-option> -->
   </el-select>
@@ -19,10 +19,8 @@ export default {
   },
   inject: ["form"],
   methods: {
-    handleChange(e) {
-      const { _props } = this.$parent;
-      const { model } = this.form;
-      model[_props.prop] = e;
+    handleSelectInput(e) {
+      this.$emit('input',e)
     },
   },
 };

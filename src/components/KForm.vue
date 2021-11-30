@@ -45,6 +45,9 @@ export default {
         fn(valid, errInfo);
       });
     },
+    resetFields(){
+      this.$refs.form.resetFields()
+    }
   },
 };
 </script>
